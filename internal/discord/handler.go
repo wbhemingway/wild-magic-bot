@@ -1,9 +1,7 @@
 package discord
 
 import (
-	"encoding/json"
 	"math/rand"
-	"net/http"
 
 	"github.com/wbhemingway/wild-magic-bot/internal/surge"
 )

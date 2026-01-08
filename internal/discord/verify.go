@@ -1,6 +1,7 @@
 package discord
 
 import (
+	"bytes"
 	"crypto/ed25519"
 	"encoding/hex"
 	"io/ioutil"

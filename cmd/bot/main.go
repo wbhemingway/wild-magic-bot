@@ -36,7 +36,7 @@ func main() {
 func HandleDiscordWebHook(w http.ResponseWriter, r *http.Request) {
 	if !discord.VerifySignature(r, discordPublicKey) {
 		http.Error(w, "Invalid signature", http.StatusUnauthorized)
-		return
+	 	return
 	}
 
 	body, err := ioutil.ReadAll(r.Body)
