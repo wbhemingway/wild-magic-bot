@@ -4,45 +4,52 @@ import (
 	"crypto/ed25519"
 	"encoding/hex"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"math/rand"
 	"net/http"
-	"os"
 	"time"
 
+	"github.com/wbhemingway/wild-magic-bot/internal/config"
 	"github.com/wbhemingway/wild-magic-bot/internal/discord"
 )
 
 var discordPublicKey ed25519.PublicKey
 
 func main() {
-	key := os.Getenv("DISCORD_PUBLIC_KEY")
-	if key == "" {
-		log.Fatal("DISCORD_PUBLIC_KEY environment variable not set")
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatalf("Could not load configuration: %v. Please run `wms-register --reconfigure` or setup your environment.", err)
 	}
 
-	decodedKey, err := hex.DecodeString(key)
+	if cfg.PublicKey == "" {
+		log.Fatal("DISCORD_PUBLIC_KEY is not set in the configuration.")
+	}
+
+	decodedKey, err := hex.DecodeString(cfg.PublicKey)
 	if err != nil {
 		log.Fatalf("Error decoding public key: %v", err)
 	}
 	discordPublicKey = ed25519.PublicKey(decodedKey)
 
 	http.HandleFunc("/api/interactions", HandleDiscordWebHook)
-	log.Println("Listening on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Printf("Listening on port %s", cfg.Port)
+	log.Fatal(http.ListenAndServe(":"+cfg.Port, nil))
 }
 
 func HandleDiscordWebHook(w http.ResponseWriter, r *http.Request) {
-	if !discord.VerifySignature(r, discordPublicKey) {
-		http.Error(w, "Invalid signature", http.StatusUnauthorized)
-	 	return
-	}
+	signature := r.Header.Get("X-Signature-Ed25519")
+	timestamp := r.Header.Get("X-Signature-Timestamp")
 
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		log.Printf("Error reading request body: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	if !discord.VerifySignature(signature, timestamp, body, discordPublicKey) {
+		http.Error(w, "Invalid signature", http.StatusUnauthorized)
 		return
 	}
 
