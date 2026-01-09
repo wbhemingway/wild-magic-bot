@@ -101,3 +101,27 @@ func HandleLuckyUnlucky(r *rand.Rand) string {
 	}
 	return fmt.Sprintf("You rolled a %d: %s.", roll, effect)
 }
+
+// HandleHeightChange rolls 1d6 and returns a formatted string with the determined height change.
+func HandleHeightChange(r *rand.Rand) func() string {
+	return func() string {
+		roll := RollDie(r, 6)
+		change := "shrink"
+		if roll%2 == 0 {
+			change = "grow"
+		}
+		return fmt.Sprintf("Your height changes by %d inches. You %s.", roll, change)
+	}
+}
+
+// HandleAgeChange rolls 1d10 and returns a formatted string with the determined age change.
+func HandleAgeChange(r *rand.Rand) func() string {
+	return func() string {
+		roll := RollDie(r, 10)
+		change := "get younger"
+		if roll%2 == 0 {
+			change = "get older"
+		}
+		return fmt.Sprintf("Your age changes by %d years. You %s.", roll, change)
+	}
+}

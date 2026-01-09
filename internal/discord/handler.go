@@ -56,17 +56,23 @@ var commandHandlers = map[string]CommandHandler{
 
 func rollCommandHandler(r *rand.Rand, data ApplicationCommandInteractionData) (InteractionResponseData, error) {
 	rollCount := 1
+	tableName := "2024"
+
 	for _, opt := range data.Options {
-		if opt.Name == "count" {
+		switch opt.Name {
+		case "count":
 			if val, ok := opt.Value.(float64); ok {
 				rollCount = int(val)
 			}
-			break
+		case "table":
+			if val, ok := opt.Value.(string); ok {
+				tableName = val
+			}
 		}
 	}
 
-	if rollCount > 2 {
-		rollCount = 2
+	if rollCount > 5 {
+		rollCount = 5
 	}
 	if rollCount < 1 {
 		rollCount = 1
@@ -74,7 +80,7 @@ func rollCommandHandler(r *rand.Rand, data ApplicationCommandInteractionData) (I
 
 	var results []string
 	for i := 0; i < rollCount; i++ {
-		roll, effect, err := surge.Roll(r, "2024")
+		roll, effect, err := surge.Roll(r, tableName)
 		if err != nil {
 			return InteractionResponseData{}, err
 		}

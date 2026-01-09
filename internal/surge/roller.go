@@ -9,6 +9,7 @@ import (
 
 var surgeTables = map[string]func(*rand.Rand, int) string{
 	"2024": tables.GetSurgeEffect,
+	"2014": tables.GetSurgeEffect2014,
 }
 
 // Roll rolls a d100 and returns the roll, a wild magic surge effect, and an error.

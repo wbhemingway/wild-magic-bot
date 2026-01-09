@@ -49,7 +49,7 @@ func TestHandleInteraction_RollCommand_Default(t *testing.T) {
 	}
 }
 
-func TestHandleInteraction_RollCommand_CountTwo(t *testing.T) {
+func TestHandleInteraction_RollCommand_MultipleCount(t *testing.T) {
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 	interaction := Interaction{
 		Type: InteractionTypeApplicationCommand,
@@ -59,7 +59,7 @@ func TestHandleInteraction_RollCommand_CountTwo(t *testing.T) {
 				{
 					Name:  "count",
 					Type:  4, // INTEGER
-					Value: float64(2),
+					Value: float64(5),
 				},
 			},
 		},
@@ -74,9 +74,39 @@ func TestHandleInteraction_RollCommand_CountTwo(t *testing.T) {
 		t.Errorf("Expected response type %v, but got %v", InteractionResponseTypeChannelMessageWithSource, response.Type)
 	}
 
-	if !strings.Contains(response.Data.Content, "\n\n") {
-		t.Error("Expected two rolls separated by a double newline, but didn't find one")
+	if count := strings.Count(response.Data.Content, "\n\n"); count != 4 {
+		t.Errorf("Expected 4 double newline separators for 5 rolls, but found %d", count)
 	}
+	if !strings.HasPrefix(response.Data.Content, "(Roll: ") {
+		t.Errorf("Expected content to start with '(Roll: ', but got %q", response.Data.Content)
+	}
+}
+
+func TestHandleInteraction_RollCommand_Table2014(t *testing.T) {
+	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
+	interaction := Interaction{
+		Type: InteractionTypeApplicationCommand,
+		Data: ApplicationCommandInteractionData{
+			Name: "roll",
+			Options: []ApplicationCommandInteractionDataOption{
+				{
+					Name:  "table",
+					Type:  3, // STRING
+					Value: "2014",
+				},
+			},
+		},
+	}
+
+	response, err := HandleInteraction(rng, interaction)
+	if err != nil {
+		t.Fatalf("Expected no error, but got %v", err)
+	}
+
+	if response.Type != InteractionResponseTypeChannelMessageWithSource {
+		t.Errorf("Expected response type %v, but got %v", InteractionResponseTypeChannelMessageWithSource, response.Type)
+	}
+
 	if !strings.HasPrefix(response.Data.Content, "(Roll: ") {
 		t.Errorf("Expected content to start with '(Roll: ', but got %q", response.Data.Content)
 	}

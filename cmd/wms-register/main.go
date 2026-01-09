@@ -20,10 +20,17 @@ type Command struct {
 
 // Option represents an option for a command.
 type Option struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Type        int    `json:"type"` // 4 for INTEGER
-	Required    bool   `json:"required"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Type        int      `json:"type"` // 3 for STRING, 4 for INTEGER
+	Required    bool     `json:"required"`
+	Choices     []Choice `json:"choices,omitempty"`
+}
+
+// Choice represents a choice for a command option.
+type Choice struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 var reconfigure = flag.Bool("reconfigure", false, "Force the interactive setup to re-enter credentials.")
@@ -56,9 +63,19 @@ func main() {
 			Options: []Option{
 				{
 					Name:        "count",
-					Description: "The number of times to roll (1 or 2). Defaults to 1.",
+					Description: "The number of times to roll (1-5). Defaults to 1.",
 					Type:        4, // INTEGER
 					Required:    false,
+				},
+				{
+					Name:        "table",
+					Description: "The surge table to use. Defaults to 2024.",
+					Type:        3, // STRING
+					Required:    false,
+					Choices: []Choice{
+						{Name: "2024 Table (Newer)", Value: "2024"},
+						{Name: "2014 Table (PHB)", Value: "2014"},
+					},
 				},
 			},
 		},

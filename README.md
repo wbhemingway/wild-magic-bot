@@ -12,6 +12,15 @@ It is designed with a clean architecture, separating the core logic from the app
 - **Configurable:** Supports configuration via environment variables, a local `.env` file for development, or a shared config file for installed binaries.
 - **Deployable:** Comes with a `Dockerfile` ready for easy deployment to container platforms like Google Cloud Run.
 
+## Commands
+
+### `/roll`
+Rolls on the Wild Magic Surge table.
+
+**Options:**
+- `count` (Optional): The number of times to roll. Can be `1-5`. Defaults to `1`.
+- `table` (Optional): The surge table to use. Can be `2024` or `2014`. Defaults to `2024`.
+
 ---
 
 ## 1. Discord Application Setup
@@ -32,7 +41,7 @@ Before you can run the bot, you need to create an application in Discord's devel
 
 ## 2. Using the CLI (`wms`)
 
-This is the simplest way to use the project. It requires no configuration.
+This is the simplest way to use the project.
 
 ### Installation
 
@@ -44,9 +53,17 @@ go install github.com/wbhemingway/wild-magic-bot/cmd/wms@latest
 ```
 
 ### Usage
-Simply run the command in your terminal:
+The CLI uses flags to specify the table and the number of rolls.
+
 ```bash
+# Roll once on the default (2024) table
 wms
+
+# Roll 3 times on the 2014 table
+wms -count=3 -table=2014
+
+# Get help and see all available flags
+wms -h
 ```
 
 ---
