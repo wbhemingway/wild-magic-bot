@@ -1,15 +1,13 @@
 package tables
 
 import (
-	"math/rand"
-
 	"github.com/wbhemingway/wild-magic-bot/internal/surge/effects"
 )
 
 // GetSurgeEffect2014 takes a d100 roll as input and returns the formatted string
 // for the corresponding wild magic surge effect from the 2014 table.
-func GetSurgeEffect2014(r *rand.Rand, roll int) string {
-	table := getTable2014Ranges(r)
+func GetSurgeEffect2014(roll int) string {
+	table := getTable2014Ranges()
 	for _, entry := range table {
 		if roll >= entry.min && roll <= entry.max {
 			return entry.effect()
@@ -18,7 +16,7 @@ func GetSurgeEffect2014(r *rand.Rand, roll int) string {
 	return "Invalid roll. Please provide a roll between 1 and 100."
 }
 
-func getTable2014Ranges(r *rand.Rand) []effectRange {
+func getTable2014Ranges() []effectRange {
 	return []effectRange{
 		{1, 2, func() string {
 			return "Roll on this table at the start of each of your turns for the next minute, ignoring this result on subsequent rolls."
@@ -31,7 +29,7 @@ func getTable2014Ranges(r *rand.Rand) []effectRange {
 		}},
 		{7, 8, func() string { return "You cast Fireball as a 3rd-level spell centered on yourself." }},
 		{9, 10, func() string { return "You cast Magic Missile as a 5th-level spell." }},
-		{11, 12, effects.HandleHeightChange(r)},
+		{11, 12, effects.HandleHeightChange()},
 		{13, 14, func() string { return "You cast Confusion centered on yourself." }},
 		{15, 16, func() string {
 			return "For the next minute, you regain 5 hit points at the start of each of your turns."
@@ -61,7 +59,7 @@ func getTable2014Ranges(r *rand.Rand) []effectRange {
 		{33, 34, func() string {
 			return "Maximize the damage of the next damaging spell you cast within the next minute."
 		}},
-		{35, 36, effects.HandleAgeChange(r)},
+		{35, 36, effects.HandleAgeChange()},
 		{37, 38, func() string {
 			return "For the next minute, you regain 1d6 hit points at the start of each of your turns."
 		}},

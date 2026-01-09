@@ -6,9 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"log"
-	"math/rand"
 	"net/http"
-	"time"
 
 	"github.com/wbhemingway/wild-magic-bot/internal/config"
 	"github.com/wbhemingway/wild-magic-bot/internal/discord"
@@ -60,8 +58,7 @@ func HandleDiscordWebHook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-	response, err := discord.HandleInteraction(rng, interaction)
+	response, err := discord.HandleInteraction(interaction)
 	if err != nil {
 		log.Printf("Error handling interaction: %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)

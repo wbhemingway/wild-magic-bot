@@ -1,17 +1,13 @@
 package surge
 
 import (
-	"math/rand"
 	"testing"
-	"time"
 )
 
 func TestRoll(t *testing.T) {
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-
 	// Test with a valid table name
 	tableName := "2024"
-	_, effect, err := Roll(rng, tableName)
+	_, effect, err := Roll(tableName)
 	if err != nil {
 		t.Fatalf("Expected no error for table %q, but got %v", tableName, err)
 	}
@@ -21,7 +17,7 @@ func TestRoll(t *testing.T) {
 
 	// Test with an invalid table name
 	invalidTableName := "invalid-table"
-	_, _, err = Roll(rng, invalidTableName)
+	_, _, err = Roll(invalidTableName)
 	if err == nil {
 		t.Fatalf("Expected an error for table %q, but got nil", invalidTableName)
 	}

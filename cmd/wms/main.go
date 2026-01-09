@@ -3,9 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"math/rand"
 	"os"
-	"time"
 
 	"github.com/wbhemingway/wild-magic-bot/internal/surge"
 	"github.com/wbhemingway/wild-magic-bot/internal/surge/tables"
@@ -26,10 +24,8 @@ func main() {
 		*rollCount = 1
 	}
 
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-
 	for i := 0; i < *rollCount; i++ {
-		roll, effect, err := surge.Roll(rng, *tableName)
+		roll, effect, err := surge.Roll(*tableName)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 			os.Exit(1)

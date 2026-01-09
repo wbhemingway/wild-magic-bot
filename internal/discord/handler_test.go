@@ -1,19 +1,16 @@
 package discord
 
 import (
-	"math/rand"
 	"strings"
 	"testing"
-	"time"
 )
 
 func TestHandleInteraction_Ping(t *testing.T) {
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 	interaction := Interaction{
 		Type: InteractionTypePing,
 	}
 
-	response, err := HandleInteraction(rng, interaction)
+	response, err := HandleInteraction(interaction)
 	if err != nil {
 		t.Fatalf("Expected no error, but got %v", err)
 	}
@@ -24,7 +21,6 @@ func TestHandleInteraction_Ping(t *testing.T) {
 }
 
 func TestHandleInteraction_RollCommand_Default(t *testing.T) {
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 	interaction := Interaction{
 		Type: InteractionTypeApplicationCommand,
 		Data: ApplicationCommandInteractionData{
@@ -32,7 +28,7 @@ func TestHandleInteraction_RollCommand_Default(t *testing.T) {
 		},
 	}
 
-	response, err := HandleInteraction(rng, interaction)
+	response, err := HandleInteraction(interaction)
 	if err != nil {
 		t.Fatalf("Expected no error, but got %v", err)
 	}
@@ -50,7 +46,6 @@ func TestHandleInteraction_RollCommand_Default(t *testing.T) {
 }
 
 func TestHandleInteraction_RollCommand_MultipleCount(t *testing.T) {
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 	interaction := Interaction{
 		Type: InteractionTypeApplicationCommand,
 		Data: ApplicationCommandInteractionData{
@@ -65,7 +60,7 @@ func TestHandleInteraction_RollCommand_MultipleCount(t *testing.T) {
 		},
 	}
 
-	response, err := HandleInteraction(rng, interaction)
+	response, err := HandleInteraction(interaction)
 	if err != nil {
 		t.Fatalf("Expected no error, but got %v", err)
 	}
@@ -83,7 +78,6 @@ func TestHandleInteraction_RollCommand_MultipleCount(t *testing.T) {
 }
 
 func TestHandleInteraction_RollCommand_Table2014(t *testing.T) {
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 	interaction := Interaction{
 		Type: InteractionTypeApplicationCommand,
 		Data: ApplicationCommandInteractionData{
@@ -98,7 +92,7 @@ func TestHandleInteraction_RollCommand_Table2014(t *testing.T) {
 		},
 	}
 
-	response, err := HandleInteraction(rng, interaction)
+	response, err := HandleInteraction(interaction)
 	if err != nil {
 		t.Fatalf("Expected no error, but got %v", err)
 	}

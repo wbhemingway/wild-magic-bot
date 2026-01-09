@@ -1,12 +1,10 @@
 package tables
 
-import "math/rand"
-
 // Table defines the structure for a surge table.
 type Table struct {
 	Name        string
 	Description string
-	Roll        func(r *rand.Rand, roll int) string
+	Roll        func(roll int) string
 }
 
 // DefaultTableName is the name of the default table to use.

@@ -2,7 +2,6 @@ package discord
 
 import (
 	"fmt"
-	"math/rand"
 	"strings"
 
 	"github.com/wbhemingway/wild-magic-bot/internal/surge"
@@ -49,13 +48,13 @@ type InteractionResponseData struct {
 }
 
 // CommandHandler is a function that handles a slash command.
-type CommandHandler func(r *rand.Rand, data ApplicationCommandInteractionData) (InteractionResponseData, error)
+type CommandHandler func(data ApplicationCommandInteractionData) (InteractionResponseData, error)
 
 var commandHandlers = map[string]CommandHandler{
 	"roll": rollCommandHandler,
 }
 
-func rollCommandHandler(r *rand.Rand, data ApplicationCommandInteractionData) (InteractionResponseData, error) {
+func rollCommandHandler(data ApplicationCommandInteractionData) (InteractionResponseData, error) {
 	rollCount := 1
 	tableName := tables.DefaultTableName
 
@@ -81,7 +80,7 @@ func rollCommandHandler(r *rand.Rand, data ApplicationCommandInteractionData) (I
 
 	var results []string
 	for i := 0; i < rollCount; i++ {
-		roll, effect, err := surge.Roll(r, tableName)
+		roll, effect, err := surge.Roll(tableName)
 		if err != nil {
 			return InteractionResponseData{}, err
 		}
@@ -92,13 +91,13 @@ func rollCommandHandler(r *rand.Rand, data ApplicationCommandInteractionData) (I
 }
 
 // HandleInteraction handles the interaction from Discord.
-func HandleInteraction(r *rand.Rand, interaction Interaction) (InteractionResponse, error) {
+func HandleInteraction(interaction Interaction) (InteractionResponse, error) {
 	switch interaction.Type {
 	case InteractionTypePing:
 		return InteractionResponse{Type: InteractionResponseTypePong}, nil
 	case InteractionTypeApplicationCommand:
 		if handler, ok := commandHandlers[interaction.Data.Name]; ok {
-			data, err := handler(r, interaction.Data)
+			data, err := handler(interaction.Data)
 			if err != nil {
 				return InteractionResponse{}, err
 			}

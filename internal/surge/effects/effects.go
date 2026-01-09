@@ -6,13 +6,13 @@ import (
 )
 
 // rollDie simulates rolling a single die with 'sides' number of faces.
-func RollDie(r *rand.Rand, sides int) int {
-	return r.Intn(sides) + 1
+func RollDie(sides int) int {
+	return rand.Intn(sides) + 1
 }
 
 // HandleCreatureSummon rolls 1d4 and returns a formatted string with the determined creature.
-func HandleCreatureSummon(r *rand.Rand) string {
-	roll := RollDie(r, 4)
+func HandleCreatureSummon() string {
+	roll := RollDie(4)
 	creature := ""
 	switch roll {
 	case 1:
@@ -28,8 +28,8 @@ func HandleCreatureSummon(r *rand.Rand) string {
 }
 
 // HandleSubjectedEffect rolls 1d8 and returns a formatted string with the determined effect.
-func HandleSubjectedEffect(r *rand.Rand) string {
-	roll := RollDie(r, 8)
+func HandleSubjectedEffect() string {
+	roll := RollDie(8)
 	effect := ""
 	switch roll {
 	case 1:
@@ -53,8 +53,8 @@ func HandleSubjectedEffect(r *rand.Rand) string {
 }
 
 // HandleRandomSpell rolls 1d10 and returns a formatted string with the determined spell.
-func HandleRandomSpell(r *rand.Rand) string {
-	roll := RollDie(r, 10)
+func HandleRandomSpell() string {
+	roll := RollDie(10)
 	spell := ""
 	switch roll {
 	case 1:
@@ -82,14 +82,14 @@ func HandleRandomSpell(r *rand.Rand) string {
 }
 
 // HandleLuckyUnlucky rolls 1d6 and returns a formatted string with the determined effect.
-func HandleLuckyUnlucky(r *rand.Rand) string {
-	roll := RollDie(r, 6)
+func HandleLuckyUnlucky() string {
+	roll := RollDie(6)
 	effect := ""
 	switch roll {
 	case 1:
-		effect = fmt.Sprintf("you regain %d Hit Points", RollDie(r, 10)+RollDie(r, 10))
+		effect = fmt.Sprintf("you regain %d Hit Points", RollDie(10)+RollDie(10))
 	case 2:
-		effect = fmt.Sprintf("one ally of your choice within 300 feet of you regains %d Hit Points", RollDie(r, 10)+RollDie(r, 10))
+		effect = fmt.Sprintf("one ally of your choice within 300 feet of you regains %d Hit Points", RollDie(10)+RollDie(10))
 	case 3:
 		effect = "you regain your lowest-level expended spell slot"
 	case 4:
@@ -103,9 +103,9 @@ func HandleLuckyUnlucky(r *rand.Rand) string {
 }
 
 // HandleHeightChange rolls 1d6 and returns a formatted string with the determined height change.
-func HandleHeightChange(r *rand.Rand) func() string {
+func HandleHeightChange() func() string {
 	return func() string {
-		roll := RollDie(r, 6)
+		roll := RollDie(6)
 		change := "shrink"
 		if roll%2 == 0 {
 			change = "grow"
@@ -115,9 +115,9 @@ func HandleHeightChange(r *rand.Rand) func() string {
 }
 
 // HandleAgeChange rolls 1d10 and returns a formatted string with the determined age change.
-func HandleAgeChange(r *rand.Rand) func() string {
+func HandleAgeChange() func() string {
 	return func() string {
-		roll := RollDie(r, 10)
+		roll := RollDie(10)
 		change := "get younger"
 		if roll%2 == 0 {
 			change = "get older"
