@@ -23,23 +23,7 @@ Rolls on the Wild Magic Surge table.
 
 ---
 
-## 1. Discord Application Setup
-
-Before you can run the bot, you need to create an application in Discord's developer portal.
-
-**[Click here to go to the Discord Developer Portal](https://discord.com/developers/applications)**
-
-1.  Click **"New Application"**.
-2.  Give your application a name (e.g., "Wild Magic Bot").
-3.  Navigate to the **"Bot"** tab on the left.
-4.  From this page, you will need three pieces of information for the configuration steps below:
-    *   **Application ID:** Found on the "General Information" page.
-    *   **Public Key:** Found on the "General Information" page.
-    *   **Bot Token:** Found on the "Bot" page. Click "Reset Token" to generate one. **Treat your token like a password and never share it.**
-
----
-
-## 2. Using the CLI (`wms`)
+## 1. Using the CLI (`wms`)
 
 This is the simplest way to use the project.
 
@@ -65,6 +49,22 @@ wms -count=3 -table=2014
 # Get help and see all available flags
 wms -h
 ```
+
+---
+
+## 2. Discord Application Setup
+
+Before you can run the bot, you need to create an application in Discord's developer portal.
+
+**[Click here to go to the Discord Developer Portal](https://discord.com/developers/applications)**
+
+1.  Click **"New Application"**.
+2.  Give your application a name (e.g., "Wild Magic Bot").
+3.  Navigate to the **"Bot"** tab on the left.
+4.  From this page, you will need three pieces of information for the configuration steps below:
+    *   **Application ID:** Found on the "General Information" page.
+    *   **Public Key:** Found on the "General Information" page.
+    *   **Bot Token:** Found on the "Bot" page. Click "Reset Token" to generate one. **Treat your token like a password and never share it.**
 
 ---
 

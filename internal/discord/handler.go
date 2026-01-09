@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/wbhemingway/wild-magic-bot/internal/surge"
+	"github.com/wbhemingway/wild-magic-bot/internal/surge/tables"
 )
 
 type InteractionType int
@@ -56,7 +57,7 @@ var commandHandlers = map[string]CommandHandler{
 
 func rollCommandHandler(r *rand.Rand, data ApplicationCommandInteractionData) (InteractionResponseData, error) {
 	rollCount := 1
-	tableName := "2024"
+	tableName := tables.DefaultTableName
 
 	for _, opt := range data.Options {
 		switch opt.Name {

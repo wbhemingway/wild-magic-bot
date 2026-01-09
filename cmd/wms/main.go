@@ -8,10 +8,11 @@ import (
 	"time"
 
 	"github.com/wbhemingway/wild-magic-bot/internal/surge"
+	"github.com/wbhemingway/wild-magic-bot/internal/surge/tables"
 )
 
 var (
-	tableName = flag.String("table", "2024", "The surge table to use (e.g., 2024, 2014).")
+	tableName = flag.String("table", tables.DefaultTableName, "The surge table to use (e.g., 2024, 2014).")
 	rollCount = flag.Int("count", 1, "The number of times to roll (1-5).")
 )
 

@@ -50,7 +50,7 @@ func getTable2024Ranges(r *rand.Rand) []effectRange {
 
 // GetSurgeEffect takes a d100 roll as input and returns the formatted string
 // for the corresponding wild magic surge effect.
-func GetSurgeEffect(r *rand.Rand, roll int) string {
+func GetSurgeEffect2024(r *rand.Rand, roll int) string {
 	table := getTable2024Ranges(r)
 	for _, entry := range table {
 		if roll >= entry.min && roll <= entry.max {

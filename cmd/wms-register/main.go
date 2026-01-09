@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"github.com/wbhemingway/wild-magic-bot/internal/config"
+	"github.com/wbhemingway/wild-magic-bot/internal/surge/tables"
 )
 
 // Command represents a Discord application command.
@@ -55,6 +56,15 @@ func main() {
 		}
 	}
 
+	// Dynamically build table choices
+	var tableChoices []Choice
+	for _, table := range tables.AvailableTables {
+		tableChoices = append(tableChoices, Choice{
+			Name:  fmt.Sprintf("%s - %s", table.Name, table.Description),
+			Value: table.Name,
+		})
+	}
+
 	// Define the /roll command
 	commands := []Command{
 		{
@@ -69,13 +79,10 @@ func main() {
 				},
 				{
 					Name:        "table",
-					Description: "The surge table to use. Defaults to 2024.",
+					Description: fmt.Sprintf("The surge table to use. Defaults to %s.", tables.DefaultTableName),
 					Type:        3, // STRING
 					Required:    false,
-					Choices: []Choice{
-						{Name: "2024 Table (Newer)", Value: "2024"},
-						{Name: "2014 Table (PHB)", Value: "2014"},
-					},
+					Choices:     tableChoices,
 				},
 			},
 		},
