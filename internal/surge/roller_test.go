@@ -11,7 +11,7 @@ func TestRoll(t *testing.T) {
 
 	// Test with a valid table name
 	tableName := "2024"
-	effect, err := Roll(rng, tableName)
+	_, effect, err := Roll(rng, tableName)
 	if err != nil {
 		t.Fatalf("Expected no error for table %q, but got %v", tableName, err)
 	}
@@ -21,7 +21,7 @@ func TestRoll(t *testing.T) {
 
 	// Test with an invalid table name
 	invalidTableName := "invalid-table"
-	_, err = Roll(rng, invalidTableName)
+	_, _, err = Roll(rng, invalidTableName)
 	if err == nil {
 		t.Fatalf("Expected an error for table %q, but got nil", invalidTableName)
 	}

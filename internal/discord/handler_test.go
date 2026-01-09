@@ -41,8 +41,8 @@ func TestHandleInteraction_RollCommand_Default(t *testing.T) {
 		t.Errorf("Expected response type %v, but got %v", InteractionResponseTypeChannelMessageWithSource, response.Type)
 	}
 
-	if response.Data.Content == "" {
-		t.Error("Expected response data to have content, but it was empty")
+	if !strings.HasPrefix(response.Data.Content, "(Roll: ") {
+		t.Errorf("Expected content to start with '(Roll: ', but got %q", response.Data.Content)
 	}
 	if strings.Contains(response.Data.Content, "\n\n") {
 		t.Error("Expected a single roll, but found multiple")
@@ -76,5 +76,8 @@ func TestHandleInteraction_RollCommand_CountTwo(t *testing.T) {
 
 	if !strings.Contains(response.Data.Content, "\n\n") {
 		t.Error("Expected two rolls separated by a double newline, but didn't find one")
+	}
+	if !strings.HasPrefix(response.Data.Content, "(Roll: ") {
+		t.Errorf("Expected content to start with '(Roll: ', but got %q", response.Data.Content)
 	}
 }

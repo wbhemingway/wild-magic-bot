@@ -11,11 +11,11 @@ var surgeTables = map[string]func(*rand.Rand, int) string{
 	"2024": tables.GetSurgeEffect,
 }
 
-// Roll rolls a d100 and returns a wild magic surge effect from the specified table.
-func Roll(r *rand.Rand, tableName string) (string, error) {
+// Roll rolls a d100 and returns the roll, a wild magic surge effect, and an error.
+func Roll(r *rand.Rand, tableName string) (int, string, error) {
 	roll := r.Intn(100) + 1
 	if tableFunc, ok := surgeTables[tableName]; ok {
-		return tableFunc(r, roll), nil
+		return roll, tableFunc(r, roll), nil
 	}
-	return "", fmt.Errorf("unknown table: %s", tableName)
+	return 0, "", fmt.Errorf("unknown table: %s", tableName)
 }

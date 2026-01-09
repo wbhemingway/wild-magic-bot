@@ -16,12 +16,12 @@ const (
 )
 
 type Interaction struct {
-	Type InteractionType `json:"type"`
+	Type InteractionType                   `json:"type"`
 	Data ApplicationCommandInteractionData `json:"data"`
 }
 
 type ApplicationCommandInteractionData struct {
-	Name    string                                  `json:"name"`
+	Name    string                                    `json:"name"`
 	Options []ApplicationCommandInteractionDataOption `json:"options"`
 }
 
@@ -74,11 +74,11 @@ func rollCommandHandler(r *rand.Rand, data ApplicationCommandInteractionData) (I
 
 	var results []string
 	for i := 0; i < rollCount; i++ {
-		effect, err := surge.Roll(r, "2024")
+		roll, effect, err := surge.Roll(r, "2024")
 		if err != nil {
 			return InteractionResponseData{}, err
 		}
-		results = append(results, effect)
+		results = append(results, fmt.Sprintf("(Roll: %d) %s", roll, effect))
 	}
 
 	return InteractionResponseData{Content: strings.Join(results, "\n\n")}, nil

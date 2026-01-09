@@ -16,11 +16,11 @@ func main() {
 	}
 
 	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
-	effect, err := surge.Roll(rng, tableName)
+	roll, effect, err := surge.Roll(rng, tableName)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
 	}
 
-	fmt.Println(effect)
+	fmt.Printf("(Roll: %d) %s\n", roll, effect)
 }
